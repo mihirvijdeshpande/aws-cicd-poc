@@ -41,7 +41,7 @@ provider "aws" {
 provider "aws" {
   assume_role {
     #role_arn = "arn:aws:iam::681496624581:role/api-access-cisco"
-    role_arn      = "arn:aws:iam::${local.aws_account_id}:role/api-access-cisco"
+    role_arn      = "arn:aws:iam::645632202068:role/mihir-test-role"
     session_name  = "terraform"
   }
     # Default region specified in terraform.tfvars but overridable via CLI
@@ -94,7 +94,7 @@ variable "default_data_classification" {
 
 variable "mail_alias" {
   description = "Mail Alias for alerts about Infra"
-  default = "pov-services-platform@cisco.com"
+  default = "noreply@cisco.com"
 }
 
 # Need a bucket per region for ELB logs - AWS won't ship logs from an ELB
@@ -223,29 +223,16 @@ variable "cisco-dcloud-com" {
   variable "kms_keys" {
     type = "map"
     default = {
-      production.eu-west-1  = "arn:aws:kms:eu-west-1:295481564406:key/136c635b-f4de-489b-935c-b1ad7fdb3187"
-      production.us-east-1  = "arn:aws:kms:us-east-1:295481564406:key/3cc74606-e341-46bc-bed8-4017d61ebc37"
-      dev.eu-west-1         = "arn:aws:kms:eu-west-1:681496624581:key/5d8a08e0-39ae-48b1-b409-f27790d8fa78"
-      dev.us-east-1         = "arn:aws:kms:us-east-1:681496624581:key/69c8eab6-fb66-46ea-a884-0cc6a1cb5b54"
-      test.eu-west-1        = "arn:aws:kms:eu-west-1:989122839423:key/9c4ee6a8-dbee-4384-b663-49ad8943b6e8"
-      test.us-east-1        = "arn:aws:kms:us-east-1:989122839423:key/346d26a0-8a6e-49a2-a175-d5bd9f53cacf"
+      production.eu-west-1  = "arn:aws:iam::645632202068:role/mihir-test-role"
+      production.us-east-1  = "arn:aws:iam::645632202068:role/mihir-test-role"
+      dev.eu-west-1         = "arn:aws:iam::645632202068:role/mihir-test-role"
+      dev.us-east-1         = "arn:aws:iam::645632202068:role/mihir-test-role"
+      test.eu-west-1        = "arn:aws:iam::645632202068:role/mihir-test-role"
+      test.us-east-1        = "arn:aws:iam::645632202068:role/mihir-test-role"
     }
   }
 
-  # Jan 18 Account change work. Changing keys to map to facilitate production/test/dev and
-  # multiple regions
-  # Used to subscribe to Cloudwatch alerts, scaling-group notifications etc..
-  variable "dcloud_ops_topic_arn" {
-    type = "map"
-    default = {
-      production.eu-west-1  = "arn:aws:sns:eu-west-1:295481564406:dcloud-ops"
-      production.us-east-1  = "arn:aws:sns:us-east-1:295481564406:dcloud-ops"
-      dev.eu-west-1         = "arn:aws:sns:eu-west-1:681496624581:dcloud-ops"
-      dev.us-east-1         = "arn:aws:sns:us-east-1:681496624581:dcloud-ops"
-      test.eu-west-1        = "arn:aws:sns:eu-west-1:989122839423:dcloud-ops"
-      test.us-east-1        = "arn:aws:sns:us-east-1:989122839423:dcloud-ops"
-      }
-  }
+ 
 
 # TODO: delete this when all code references above 'kms_keys' map instead.
 variable "dcloud-encryption-key" {
