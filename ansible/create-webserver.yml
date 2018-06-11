@@ -1,0 +1,27 @@
+- hosts: all
+  become: true
+  become_user: root
+  #become_method: sudo
+
+  tasks:
+
+  - name: Install EPEL
+    become: true
+    become_user: root
+    yum:
+      name: epel-release
+      state: present
+
+  - name: Install and Configure NGINX
+    block:
+      - yum:
+          name: nginx
+          state: present
+      - copy:
+          src: ../html/index.html
+          dest: /usr/share/nginx/html/index.html
+      - service:
+          name: nginx
+          state: started
+          enabled: yes
+    become: yes

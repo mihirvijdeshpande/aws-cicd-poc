@@ -1,0 +1,6 @@
+{
+  "aws_profile": "dev_api",
+  "region_aws_kms_key": "69c8eab6-fb66-46ea-a884-0cc6a1cb5b54",
+  "os_query_tenant_id": "681496624581",
+  "os_query_password": "s0wdOKxD06XAMmGEQWfkSN3gJFt2hRcq"
+}

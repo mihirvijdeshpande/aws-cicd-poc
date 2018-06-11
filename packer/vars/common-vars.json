@@ -1,0 +1,11 @@
+{
+  "aws_vpc": "",
+  "ssh_username": "centos",
+  "centos7_market_code": "aw0evgkw8e5c1q413zgy5pjce",
+  "copy_to_regions": "",
+  "encrypt": "true",
+  "sleep_time": "0",
+  "ansible_extra_vars": "",
+  "aws_profile": "",
+  "aws_region": ""
+}

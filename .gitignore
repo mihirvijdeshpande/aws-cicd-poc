@@ -1,0 +1,25 @@
+# Ignore terraform state files, downloaded modules, terraform.tfvars etc
+terraform.tfstate*
+
+slapper
+
+.terraform/
+
+# Mac Users, let's not version control this one
+.DS_Store
+
+# exclude user/personal ssh.cfgs
+ssh.cfg
+
+# Don't want people's aws access & secret keys
+.aws/credentials
+
+# Exclude Ansible retries
+*.retry
+
+# Exclude .baks
+*.bak
+
+# dev build of ansible2.5 resides in this folder
+ansible/ansible/
+*-manifest.json

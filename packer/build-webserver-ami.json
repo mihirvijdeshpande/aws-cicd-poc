@@ -1,0 +1,58 @@
+{
+  "description": "Test webserver for CI/CD. Built against centos.org CentOS7.",
+  "variables": {
+    "aws_vpc": "",
+    "ssh_username": "centos",
+    "centos7_market_code": "aw0evgkw8e5c1q413zgy5pjce",
+    "copy_to_regions": "",
+    "sleep_time": "0",
+    "aws_profile": "",
+    "aws_region": ""
+  },
+  "builders": [
+    {
+      "name": "webserver-build",
+      "region": "{{user `aws_region`}}",
+      "type": "amazon-ebs",
+      "ssh_pty": "true",
+      "ami_description": "test webserver for CI/CD created with PACKER {{isotime \"20060102-1504\"}}",
+      "ami_name": "webserver_ut_{{isotime \"20060102-1504\"}}",
+      "source_ami_filter": {
+        "filters": {
+          "owner-alias": "aws-marketplace",
+          "product-code": "{{user `centos7_market_code`}}",
+          "virtualization-type": "hvm"
+        },
+        "most_recent": "true"
+      },
+      "ami_block_device_mappings": [
+        {
+          "device_name": "/dev/sda1",
+          "volume_type": "gp2",
+          "volume_size": 8,
+          "encrypted": true,
+          "delete_on_termination": true
+        }
+      ],
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "ami_regions": "{{user `copy_to_regions`}}",
+      "instance_type": "t2.micro",
+      "ssh_username": "{{user `ssh_username`}}",
+      "ami_virtualization_type": "hvm",
+      "tags": {
+        "Name": "webserver_cicd_{{isotime \"20060102-1504\"}}",
+        "Packer": "true",
+        "OS_Version": "Centos",
+        "Release": "7"
+      }
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible",
+      "playbook_file": "ansible/create-webserver.yml",
+      "only": ["webserver-build"]
+    }
+  ]
+}
